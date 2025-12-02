@@ -1,0 +1,399 @@
+app:
+  description: ''
+  icon: 💭
+  icon_background: '#D1E9FF'
+  mode: workflow
+  name: 旅游助手
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/deepseek:0.0.7@c4e7b999ae67bfc059f6f51630bed36def5a835d12b0251694f5784b5ff1cd95
+kind: app
+version: 0.2.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - remote_url
+      - local_file
+      enabled: true
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        sourceType: start
+        targetType: question-classifier
+      id: 1711529033302-1711529036587
+      source: '1711529033302'
+      sourceHandle: source
+      target: '1711529036587'
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: llm
+      id: 1711529036587-1711529038361-1764573632801-target
+      source: '1711529036587'
+      sourceHandle: '1711529038361'
+      target: '1764573632801'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: variable-aggregator
+      id: 1711529036587-1711529041725-1764574927802-target
+      source: '1711529036587'
+      sourceHandle: '1711529041725'
+      target: '1764574927802'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: variable-aggregator
+        targetType: llm
+      id: 1764574927802-source-1764575266913-target
+      source: '1764574927802'
+      sourceHandle: source
+      target: '1764575266913'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1764575266913-source-1764575575434-target
+      source: '1764575266913'
+      sourceHandle: source
+      target: '1764575575434'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1764573632801-source-1764575578298-target
+      source: '1764573632801'
+      sourceHandle: source
+      target: '1764575578298'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: Start
+        type: start
+        variables:
+        - label: 旅游地点
+          max_length: 48
+          options: []
+          required: false
+          type: paragraph
+          variable: dection
+        - default: ''
+          hint: ''
+          label: 度假时间
+          max_length: 48
+          options: []
+          placeholder: ''
+          required: false
+          type: text-input
+          variable: time
+        - default: ''
+          hint: ''
+          label: 预算
+          max_length: 48
+          options: []
+          placeholder: ''
+          required: true
+          type: text-input
+          variable: price
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - image
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          default: ''
+          hint: ''
+          label: 风景
+          max_length: 48
+          options: []
+          placeholder: ''
+          required: false
+          type: file
+          variable: scenery
+      dragging: false
+      height: 168
+      id: '1711529033302'
+      position:
+        x: 80
+        y: 282
+      positionAbsolute:
+        x: 80
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        classes:
+        - id: '1711529038361'
+          name: 根据图片找位置
+        - id: '1711529041725'
+          name: 旅游计划规划
+        desc: 定义一个用户问题的主题分类，主题定义了对话的进展方式
+        instructions: ''
+        model:
+          completion_params:
+            frequency_penalty: 0
+            max_tokens: 512
+            presence_penalty: 0
+            temperature: 0.7
+            top_p: 1
+          mode: chat
+          name: deepseek-chat
+          provider: langgenius/deepseek/deepseek
+        query_variable_selector:
+        - '1711529033302'
+        - dection
+        selected: false
+        title: Question Classifier
+        topics: []
+        type: question-classifier
+        vision:
+          enabled: false
+      dragging: false
+      height: 216
+      id: '1711529036587'
+      position:
+        x: 364
+        y: 282
+      positionAbsolute:
+        x: 364
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-chat
+          provider: langgenius/deepseek/deepseek
+        prompt_template:
+        - id: 38cb7c7d-dc9a-4171-b4ed-b213a5209595
+          role: system
+          text: '{{#1711529033302.scenery#}}，分析图片中的地理特征、建筑风格、植被类型、气候特征等视觉元素，然后基于这些特征推断出可能的地理位置信息，包括国家、地区、城市或具体景点名称。并根据{{#1711529033302.price#}}提供详细的旅游方案。'
+        selected: false
+        title: LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 90
+      id: '1764573632801'
+      position:
+        x: 653.0913156637572
+        y: 291.03404828781197
+      positionAbsolute:
+        x: 653.0913156637572
+        y: 291.03404828781197
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        output_type: string
+        selected: false
+        title: 变量聚合器
+        type: variable-aggregator
+        variables:
+        - - '1711529033302'
+          - dection
+        - - '1711529033302'
+          - time
+        - - '1711529033302'
+          - price
+      height: 152
+      id: '1764574927802'
+      position:
+        x: 341.3414914750027
+        y: 550.0784600369336
+      positionAbsolute:
+        x: 341.3414914750027
+        y: 550.0784600369336
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-chat
+          provider: langgenius/deepseek/deepseek
+        prompt_template:
+        - id: 24763c73-5973-4b2a-821f-e012aadfb8de
+          role: system
+          text: "```xml\n<instruction>\n你是一个专业的旅游规划助手。请根据用户提供的以下信息，为其制定一份详细、合理且个性化的旅游规划：\n\
+            1.  **目的地分析**：首先，分析{{#1711529033302.dection#}}的主要景点、特色和文化背景。\n2.  **时间安排**：根据{{#1711529033302.time#}}，将行程安排到具体的天数。确保行程节奏张弛有度，避免过于紧张或松散。考虑景点之间的地理位置和交通时间。\n\
+            3.  **预算规划**：在{{#1711529033302.price#}}的预算框架内，合理分配交通、住宿、餐饮、门票和购物等费用。可以提供不同档次的选项（如经济型、舒适型、豪华型）供参考。\n\
+            4.  **行程制定**：整合以上信息，生成一份清晰的每日行程计划。每日计划应包括：\n    *   上午、下午、晚上的主要活动或游览景点。\n\
+            \    *   景点间的交通方式建议。\n    *   餐饮推荐（如当地特色美食）。\n    *   大致的费用估算。\n5.  **实用建议**：提供一些针对{{#1711529033302.dection#}}的实用旅行贴士，如最佳交通方式、天气提醒、必备物品、文化习俗注意事项等。\n\
+            6.  **格式要求**：请使用清晰、易读的段落和列表（如使用Markdown格式的`-`或`*`）来组织你的回答。**最终输出中不得包含任何XML标签。**\n\
+            </instruction>\n\n<input>\n目的地：{{#1711529033302.dection#}}\n旅行时长：{{#1711529033302.time#}}\n\
+            总预算：{{#1711529033302.price#}}\n</input>\n\n<example>\n<input>\n目的地：日本京都\n\
+            旅行时长：4天3晚\n总预算：8000元人民币\n</input>\n<output>\n**日本京都4天3晚文化之旅规划（预算约8000元人民币）**\n\
+            \n**一、行程亮点**\n*   深度体验千年古都的寺庙、庭院与町屋文化。\n*   品尝精致的京怀石料理与街头小吃。\n*   穿着和服漫步花见小路与祇园，感受古风雅韵。\n\
+            \n**二、每日详细行程**\n\n**第一天：抵达与初探东山**\n*   **上午/下午**：抵达关西国际机场，乘坐Haruka特急列车直达京都站。入住酒店（推荐京都站或四条河原町附近，交通便利）。\n\
+            *   **傍晚**：前往【祇园】区域，漫步【花见小路】，有机会偶遇舞妓。在【八坂神社】感受夜景。\n*   **晚餐**：尝试汤豆腐料理或京都拉面。\n\
+            *   **预算参考**：机场交通约160元，住宿（经济型酒店）约400元/晚，晚餐约100元。\n\n**第二天：世界遗产巡礼（东部）**\n\
+            *   **上午**：游览【清水寺】，俯瞰京都全景，漫步【三年坂·二年坂】传统街区。\n*   **下午**：参观【伏见稻荷大社】，徒步千本鸟居。\n\
+            *   **晚上**：返回市区，在【先斗町】或【木屋町】享用晚餐，体验居酒屋文化。\n*   **交通**：建议购买京都巴士一日券（约35元）。\n\
+            *   **预算参考**：清水寺门票约50元，午餐（荞麦面/定食）约80元，晚餐约150元。\n\n**第三天：岚山自然与金阁寺（西部）**\n\
+            *   **上午**：乘坐嵯峨野小火车游览【岚山】，参观【竹林小径】、【天龙寺】。\n*   **下午**：返回市区，参观金光闪闪的【金阁寺】。\n\
+            *   **晚上**：在【锦市场】品尝各种小吃，或在京都站大楼购物、用餐。\n*   **交通**：使用IC卡（如ICOCA）或巴士一日券。\n\
+            *   **预算参考**：嵯峨野小火车票约80元，金阁寺门票约50元，午餐（岚山豆腐宴）约150元。\n\n**第四天：文化体验与返程**\n\
+            *   **上午**：选择一项文化体验，如【西阵织和服体验】（约300-500元）或参观【二条城】。\n*   **下午**：根据航班时间，前往机场，结束旅程。\n\
+            *   **预算参考**：和服体验约400元，午餐约80元，机场交通约160元。\n\n**三、预算分配概览（总计约8000元）**\n*\
+            \   **国际机票**：假设从中国主要城市出发，约3000-4000元（需提前预订）。\n*   **住宿（3晚）**：经济型酒店/民宿，约1200元。\n\
+            *   **当地交通与门票**：约800元。\n*   **餐饮（4天）**：约1500元。\n*   **购物与其他**：预留约500-1000元。\n\
+            \n**四、实用旅行贴士**\n1.  **交通**：在京都市内，巴士网络发达，购买一日券非常划算。远距离移动可使用JR Pass（若行程包含其他城市）。\n\
+            2.  **住宿**：提前预订，旺季（樱花季、枫叶季）价格高涨且房源紧张。\n3.  **礼仪**：进入寺庙需安静，部分室内需脱鞋。公共场所勿大声喧哗。\n\
+            4.  **网络**：建议租用移动Wi-Fi或购买本地数据SIM卡。\n5.  **支付**：大部分地方接受信用卡，但小型餐馆和商店可能只收现金，请备足日元。\n\
+            </output>\n</example>\n\n<note>\n*   请确保规划符合常识，景点开放时间、交通可行性需真实合理。\n* \
+            \  预算分配应清晰明了，让用户一目了然。\n*   可根据用户可能的额外偏好（如“喜欢美食”、“偏爱自然风光”、“家庭出游”）在规划中灵活调整侧重点，但核心必须基于输入的三个变量。\n\
+            </note>\n```"
+        selected: false
+        title: LLM 2
+        type: llm
+        vision:
+          enabled: false
+      height: 90
+      id: '1764575266913'
+      position:
+        x: 643.3414914750027
+        y: 550.0784600369336
+      positionAbsolute:
+        x: 643.3414914750027
+        y: 550.0784600369336
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        outputs:
+        - value_selector:
+          - '1764575266913'
+          - text
+          value_type: string
+          variable: plan
+        selected: false
+        title: 结束 2
+        type: end
+      height: 90
+      id: '1764575575434'
+      position:
+        x: 945.3414914750027
+        y: 550.0784600369336
+      positionAbsolute:
+        x: 945.3414914750027
+        y: 550.0784600369336
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        outputs:
+        - value_selector:
+          - '1764573632801'
+          - text
+          value_type: string
+          variable: result
+        selected: false
+        title: 结束 3
+        type: end
+      height: 90
+      id: '1764575578298'
+      position:
+        x: 955.0913156637572
+        y: 291.03404828781197
+      positionAbsolute:
+        x: 955.0913156637572
+        y: 291.03404828781197
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 117.94070527966721
+      y: -101.22389478777069
+      zoom: 0.8975100506672615
